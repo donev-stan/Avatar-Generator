@@ -5,22 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="shortcut icon" type="image/png" href="./icon.png" />
         <link rel="stylesheet" href="./styles.css" />
-
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
             crossorigin="anonymous"
         />
-        <script src="./script.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+        <script src="./script.js" type="module" defer></script>
         <title>Avatar Generator</title>
     </head>
     <body>
         <!-- bg-transparent -->
-        <div class="container my-sm-4 shadow p-3 rounded transparent">
+        <div class="container my-sm-4 shadow p-3 rounded">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="d-flex-column" style="max-width: 280px">
+                
+                <!-- Property Panel -->
+                <div class="col-md-4">
+                    <div class="d-flex-column shadow p-3 rounded propertyPanel" >
                         <!-- Avatar Seed -->
                         <div class="d-flex-column mb-4">
                             <label for="avatarSeed" class="form-label"
@@ -32,7 +34,7 @@
                                 type="seed"
                                 class="form-control"
                                 id="avatarSeed"
-                                placeholder="name, ip, email, random word..."
+                                placeholder=""
                             />
                         </div>
 
@@ -50,13 +52,13 @@
                                 aria-label="Default select example"
                             >
                                 <!-- <option selected value="random">Random</option> -->
-                                <option value="?set=set1" selected>
+                                <option value="set_set1" selected>
                                     Robot
                                 </option>
-                                <option value="?set=set3">Robot v2</option>
-                                <option value="?set=set2">Monster</option>
-                                <option value="?set=set4">Cat</option>
-                                <option value="?set=set5">Human</option>
+                                <option value="set_set3">Robot v2</option>
+                                <option value="set_set2">Monster</option>
+                                <option value="set_set4">Cat</option>
+                                <option value="set_set5">Human</option>
                             </select>
                         </div>
 
@@ -75,8 +77,8 @@
                             >
                                 <!-- <option selected value="random">Random</option> -->
                                 <option value="" selected>Transparent</option>
-                                <option value="bgset=bg1">Random</option>
-                                <option value="bgset=bg2">Focused</option>
+                                <option value="bgset_bg1">Location</option>
+                                <option value="bgset_bg2">Focused</option>
                             </select>
                         </div>
 
@@ -123,9 +125,9 @@
                         </div>
 
                         <!-- Image Extension -->
-                        <div class="d-flex-column mb-4">
+                        <div class="d-flex-column mb-4 ">
                             <label for="avatarExtension" class="form-label"
-                                >Image Extension:
+                                >Extension:
                                 <span class="text-muted"
                                     >(optional)</span
                                 ></label
@@ -139,22 +141,11 @@
                                 <option value=".jpg">.jpg</option>
                             </select>
                         </div>
-
-                        <!-- Button Generate Avatar -->
-                        <!-- <div class="d-flex-column text-center">
-                            <button
-                                type="button"
-                                class="btn btn-warning"
-                                id="generateAvatar"
-                            >
-                                Generate Avatar
-                            </button>
-                        </div> -->
                     </div>
                 </div>
 
-                <!-- Avatar Query Output -->
-                <div class="col-md-6 align-middle">
+                <!-- Avatar Output -->
+                <div class="col-md-8 align-middle">
                     <div class="d-flex-column text-center">
                         <!-- Image Output -->
                         <div class="d-flex justify-content-center">
@@ -164,12 +155,12 @@
                                 alt="Avatar"
                                 width="300px"
                                 height="300px"
-                                class="shadow-sm p-3 my-5 bg-body rounded"
+                                class="shadow-sm p-3 mt-5 mb-2 bg-body rounded shadow p-3 rounded"
                             />
                         </div>
 
                         <!-- Link Output -->
-                        <div class="shadow-sm p-3 mb-4 bg-body rounded text-center user-select-all outputDiv ">
+                        <div class="shadow-sm p-3 my-4 bg-body rounded text-center user-select-all outputDiv   shadow p-3 rounded">
                             <a
                                 id="outputLink"
                                 target="_blank"
@@ -179,28 +170,59 @@
                             </a>
                         </div>
 
-                        <!-- Save Avatar Button -->
-                        <div class="d-flex justify-content-center">
+                        <!-- Buttons -->
+                        <div class="d-flex justify-content-center my-4">
+                            <div style="padding-right: 10px;">
+                                <button
+                                    type="button"
+                                    class="btn btn-danger shadow p-3 rounded"
+                                    id="reGenerateAvatar">
+                                    Re-Generate
+                                </button>
+                            </div>
                             <div style="padding-right: 10px;">
                                 <button
                                 type="button"
-                                class="btn btn-warning"
+                                class="btn btn-warning shadow p-3 rounded"
                                 id="generateAvatar"
                             >
-                                Generate Avatar
+                                Generate
                             </button>
                             </div>
+                           <div>
+                                <button
+                                    type="button"
+                                    class="btn btn-info shadow p-3 rounded"
+                                    id="saveAvatar">
+                                    Bookmark
+                                </button>
+                           </div>
+                            
                            
-                            <button
-                                type="button"
-                                class="btn btn-info"
-                                id="saveAvatar">
-                                Save Avatar
-                        </button>
                         </div>
                     </div>
                 </div>
+
             </div>
+        </div>
+
+        <!-- Saved Avatars -->
+        <div class="container my-sm-4 shadow p-3 rounded" id="savedAvatars">
+            <!-- <script type="text/x-handlebars-template" id="savedAvatars-template">
+                <div class="row">
+                    {{#each avatars}}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <img src="{{imageURL}}" class="card-img-top" alt="Saved Avatar">
+                            <div class="card-body pb-2">
+                            <h5 class="card-title text-center"><a href="{{linkID}}" target="_blank" style="text-decoration: none;">{{seed}}</a></h5>
+                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </script> -->
         </div>
     </body>
 </html>

@@ -1,0 +1,22 @@
+
+<div class="row" onload="()=> console.log('sex')">
+    {{#each avatars}}
+    <div class="col-md-3">
+        <div class="card">
+            <img src="{{imageURL}}" class="card-img-top" alt="Saved Avatar">
+            <div class="card-body pb-2 text-center">
+                <h5 class="card-title"><a href="{{linkID}}" target="_blank"
+                        style="text-decoration: none;">{{seed}}</a></h5>
+                    <button 
+                        onclick="()=> console.log('yes')"
+                        type="button" 
+                        class="btn btn-outline-danger btn-sm" 
+                        id="deleteAvatar" 
+                        data-avatarID="{{linkID}}" 
+                        >Remove</button>
+                <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

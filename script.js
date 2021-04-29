@@ -1,49 +1,91 @@
+import htmlElements from './htmlElements.js';
+
 (() => {
-    const baseURL = 'https://robohash.org/';
+    const baseURL = "https://robohash.org";
 
-    const htmlElements = {
-        seed: () => document.querySelector('input[type="seed"]'),
-        type: () => document.querySelector('#avatarType'),
-        background: () => document.querySelector('#avatarBackground'),
-        width: () => document.querySelector('input[type="width"]'),
-        height: () => document.querySelector('input[type="height"]'),
-        extension: () => document.querySelector('#imgExtension'),
-        avatarImg: () => document.querySelector('#avatarImage'),
-        outputLink: () => document.querySelector('#outputLink'),
-        generateBtn: () => document.querySelector('#generateAvatar')
-    };
+    htmlElements["generateBtn"]().addEventListener("click", generateAvatar);
+    htmlElements["saveBtn"]().addEventListener("click", saveAvatar);
+    htmlElements["reGenerateBtn"]().addEventListener("click", generateAvatar);
 
-    htmlElements['generateBtn']().addEventListener('click', generateAvatar);
-    
-    
-    function generateAvatar(e){
-        let { seed, type, background, size, extension } = getUserInputs();
-        
-        // Random avatar on click if no seed
-        if (seed === '') seed = Math.round(Math.random() * 1000)
+    let seed = "avatar";
+    let avatarID = "https://robohash.org/avatar";
+    let avatarImageURL = "https://robohash.org/avatar";
 
-        const imageURL = `${baseURL}${seed}${type}&${background}`;
-        htmlElements['avatarImg']().src = imageURL;
+    (() => {
+        localStorage.setItem(
+            avatarID,
+            JSON.stringify({
+                linkID: avatarID,
+                seed: seed,
+                imageURL: avatarImageURL,
+            })
+        );
+        renderSavedAvatars();
+    })();
 
-        console.log(imageURL);
+    function generateAvatar(e) {
+        let { seed, type, background, size, extension } = getUserInputs(e);
 
-        const displayURL = `${imageURL}?${size.width}x${size.height}${extension}`;
-        htmlElements['outputLink']().innerHTML = displayURL;
-        htmlElements['outputLink']().href = displayURL;
+        avatarID = `${baseURL}/${type}${
+            background !== "" ? `/${background}/` : "/"
+        }${seed}?size=${size.width}x${size.height}`;
+        avatarImageURL = `${baseURL}/${type}${
+            background !== "" ? `/${background}/` : "/"
+        }${seed}`;
+
+        htmlElements["avatarImg"]().src = avatarImageURL;
+        htmlElements["outputLink"]().innerHTML = avatarID;
+        htmlElements["outputLink"]().href = avatarID;
     }
 
-    function getUserInputs(){
+    function saveAvatar(e) {
+        localStorage.setItem(
+            avatarID,
+            JSON.stringify({
+                linkID: avatarID,
+                seed: seed,
+                imageURL: avatarImageURL,
+            })
+        );
+
+        renderSavedAvatars();
+    }
+
+    function renderSavedAvatars() {
+        const avatars = [];
+
+        Object.keys(localStorage).forEach((key) =>
+            avatars.push(JSON.parse(localStorage.getItem(key)))
+        );
+
+        fetch("./savedAvatars.hbs")
+            .then((response) => response.text())
+            .then((templateSource) => {
+                const template = Handlebars.compile(templateSource);
+                htmlElements["savedAvatars"]().innerHTML = template({avatars});
+            });
+    }
+
+    function getUserInputs(e) {
+        if (e.target.id === "generateAvatar") {
+            seed = htmlElements["seed"]().value;
+
+            // Random avatar on click if no seed
+            if (seed === "") {
+                seed = Math.round(Math.random() * 10000);
+                htmlElements["seed"]().placeholder = seed;
+            }
+        } // else it's regenerate avatar
+
         return {
-            seed: htmlElements['seed']().value,
-            type: htmlElements['type']().value,
-            background: htmlElements['background']().value,
+            seed,
+            type: htmlElements["type"]().value,
+            background: htmlElements["background"]().value,
             size: {
-                width: htmlElements['width']().value,
-                height: htmlElements['height']().value
+                width: htmlElements["width"]().value,
+                height: htmlElements["height"]().value,
             },
-            extension: htmlElements['extension']().value
-        }
+            extension: htmlElements["extension"]().value,
+        };
     }
-
-   
 })();
