@@ -15,4 +15,4 @@ const htmlElements = {
     deleteAvatarBtn: () => document.querySelector("#deleteAvatar"),
 };
 
-export default htmlElements; 
+// export default htmlElements; 

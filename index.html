@@ -12,23 +12,22 @@
             crossorigin="anonymous"
         />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
-        <script src="./script.js" type="module" defer></script>
         <title>Avatar Generator</title>
     </head>
     <body>
         <!-- bg-transparent -->
         <div class="container my-sm-4 shadow p-3 rounded">
             <div class="row">
-                
                 <!-- Property Panel -->
                 <div class="col-md-4">
-                    <div class="d-flex-column shadow p-3 rounded propertyPanel" >
+                    <div class="d-flex-column shadow p-3 rounded propertyPanel">
                         <!-- Avatar Seed -->
                         <div class="d-flex-column mb-4">
                             <label for="avatarSeed" class="form-label"
-                                >Seed: <span class="text-muted"
-                                >(optional)</span
-                            ></label
+                                >Seed:
+                                <span class="text-muted"
+                                    >(optional)</span
+                                ></label
                             >
                             <input
                                 type="seed"
@@ -52,9 +51,7 @@
                                 aria-label="Default select example"
                             >
                                 <!-- <option selected value="random">Random</option> -->
-                                <option value="set_set1" selected>
-                                    Robot
-                                </option>
+                                <option value="set_set1" selected>Robot</option>
                                 <option value="set_set3">Robot v2</option>
                                 <option value="set_set2">Monster</option>
                                 <option value="set_set4">Cat</option>
@@ -107,8 +104,8 @@
                                 />
                             </div>
                             <div class="input-group">
-                                <span 
-                                    class="input-group-text" 
+                                <span
+                                    class="input-group-text"
                                     style="width: 76px"
                                     id="avatarHeight"
                                     >Height:</span
@@ -125,7 +122,7 @@
                         </div>
 
                         <!-- Image Extension -->
-                        <div class="d-flex-column mb-4 ">
+                        <div class="d-flex-column mb-4">
                             <label for="avatarExtension" class="form-label"
                                 >Extension:
                                 <span class="text-muted"
@@ -160,7 +157,9 @@
                         </div>
 
                         <!-- Link Output -->
-                        <div class="shadow-sm p-3 my-4 bg-body rounded text-center user-select-all outputDiv   shadow p-3 rounded">
+                        <div
+                            class="shadow-sm p-3 my-4 bg-body rounded text-center user-select-all outputDiv shadow p-3 rounded"
+                        >
                             <a
                                 id="outputLink"
                                 target="_blank"
@@ -172,37 +171,36 @@
 
                         <!-- Buttons -->
                         <div class="d-flex justify-content-center my-4">
-                            <div style="padding-right: 10px;">
+                            <div style="padding-right: 10px">
                                 <button
                                     type="button"
                                     class="btn btn-danger shadow p-3 rounded"
-                                    id="reGenerateAvatar">
-                                    Re-Generate
+                                    id="reGenerateAvatar"
+                                >
+                                    Regenerate
                                 </button>
                             </div>
-                            <div style="padding-right: 10px;">
+                            <div style="padding-right: 10px">
                                 <button
-                                type="button"
-                                class="btn btn-warning shadow p-3 rounded"
-                                id="generateAvatar"
-                            >
-                                Generate
-                            </button>
+                                    type="button"
+                                    class="btn btn-warning shadow p-3 rounded"
+                                    id="generateAvatar"
+                                >
+                                    Generate
+                                </button>
                             </div>
-                           <div>
+                            <div>
                                 <button
                                     type="button"
                                     class="btn btn-info shadow p-3 rounded"
-                                    id="saveAvatar">
+                                    id="saveAvatar"
+                                >
                                     Bookmark
                                 </button>
-                           </div>
-                            
-                           
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
 
@@ -224,5 +222,22 @@
                 </div>
             </script> -->
         </div>
+
+
+        <script src="./htmlElements.js"></script>
+        <script src="./avatarActions.js"></script>
+        <script src="./init.js"></script>
+
+
+        <script>
+            // import { renderSavedAvatars } from './avatarActions.js';
+            
+            function deleteAvatar(e) {
+                const advatarID = e.target.dataset.avatarid;
+                localStorage.removeItem(advatarID);
+                console.log(advatarID);
+                renderSavedAvatars();
+            }
+        </script>
     </body>
 </html>
