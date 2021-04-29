@@ -2,6 +2,10 @@
 
 const baseURL = "https://robohash.org";
 
+let seed = "avatar";
+let avatarID = "https://robohash.org/avatar";
+let avatarImageURL = "https://robohash.org/avatar";
+
 function generateAvatar(e) {
     let { seed, type, background, size, extension } = getUserInputs(e);
 
@@ -42,16 +46,19 @@ function renderSavedAvatars() {
         .then((response) => response.text())
         .then((templateSource) => {
             const template = Handlebars.compile(templateSource);
-            htmlElements["savedAvatars"]().innerHTML = template({avatars});
-            // htmlElements["deleteAvatarBtn"]().addEventListener("click", (e) => {
-            //     const advatarID = e.target.dataset.avatarid;
-            //     localStorage.removeItem(advatarID);
-            //     console.log(advatarID);
-            //     renderSavedAvatars();
-            // });
+            htmlElements["savedAvatars"]().innerHTML = template({ avatars });
         });
+
+    // NOT WORKING:
+    // const template = Handlebars.compile(htmlElements['savedAvatarsTemplate']().innerHTML);
+    // htmlElements['savedAvatars']().innerHTML = template({avatars});
 }
 
+function deleteAvatar(e) {
+    const advatarID = e.target.dataset.avatarid;
+    localStorage.removeItem(advatarID);
+    renderSavedAvatars();
+}
 
 // Helper function
 function getUserInputs(e) {

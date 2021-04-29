@@ -6,18 +6,14 @@
     htmlElements["saveBtn"]().addEventListener("click", saveAvatar);
     htmlElements["reGenerateBtn"]().addEventListener("click", generateAvatar);
 
-    let seed = "avatar";
-    let avatarID = "https://robohash.org/avatar";
-    let avatarImageURL = "https://robohash.org/avatar";
-
-    localStorage.setItem(
-        avatarID,
-        JSON.stringify({
-            linkID: avatarID,
-            seed: seed,
-            imageURL: avatarImageURL,
-        })
-    );
+    // localStorage.setItem(
+    //     avatarID,
+    //     JSON.stringify({
+    //         linkID: avatarID,
+    //         seed: seed,
+    //         imageURL: avatarImageURL,
+    //     })
+    // );
 
     renderSavedAvatars();
 })();

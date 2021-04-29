@@ -206,38 +206,28 @@
 
         <!-- Saved Avatars -->
         <div class="container my-sm-4 shadow p-3 rounded" id="savedAvatars">
-            <!-- <script type="text/x-handlebars-template" id="savedAvatars-template">
+            <script type="text/x-handlebars-template" id="savedAvatars-template">
                 <div class="row">
                     {{#each avatars}}
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <div class="card">
                             <img src="{{imageURL}}" class="card-img-top" alt="Saved Avatar">
-                            <div class="card-body pb-2">
-                            <h5 class="card-title text-center"><a href="{{linkID}}" target="_blank" style="text-decoration: none;">{{seed}}</a></h5>
-                            <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <div class="card-body pb-2 text-center">
+                                <h5 class="card-title"><a href="{{linkID}}" target="_blank" style="text-decoration: none;">{{seed}}</a>
+                                </h5>
+                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                    id="deleteAvatar" data-avatarID="{{linkID}}" onclick="deleteAvatar(event)">Remove</button>
                             </div>
                         </div>
                     </div>
                     {{/each}}
                 </div>
-            </script> -->
+            </script>
         </div>
 
 
         <script src="./htmlElements.js"></script>
         <script src="./avatarActions.js"></script>
         <script src="./init.js"></script>
-
-
-        <script>
-            // import { renderSavedAvatars } from './avatarActions.js';
-            
-            function deleteAvatar(e) {
-                const advatarID = e.target.dataset.avatarid;
-                localStorage.removeItem(advatarID);
-                console.log(advatarID);
-                renderSavedAvatars();
-            }
-        </script>
     </body>
 </html>
